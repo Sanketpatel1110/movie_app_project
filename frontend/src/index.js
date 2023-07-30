@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Route, BrowserRouter,Routes} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import Login from './components/Login';
+import SavedMovies from './components/saved_movies_page';
 
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,6 +22,7 @@ function Router() {
       <Routes>
         <Route exact path="/" element={<Login />}/>
         <Route exact path="/tasks" element={<App />}/>
+        <Route exact path="/savedmovies" element={<SavedMovies />}/>
       </Routes>
     </BrowserRouter>
   )

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
 import { FaRegBookmark } from "react-icons/fa";
+import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import toastNotification from './components/toast';
@@ -23,6 +24,34 @@ class App extends React.Component {
         title: "",
         description: "",
         completed: ""
+      },
+      activeMovie: {
+        'Actors': "", 
+        'Awards': "",
+        'BoxOffice': "",
+        'Country': "",
+        'DVD': "",
+        'Director': "",
+        'Genre': "",
+        'Language': "",
+        'Metascore': "",
+        'Plot': "",
+        'Poster': "",
+        'Production': "",
+        'Rated': "",
+        'Ratings': "",
+        'Released': "",
+        'Response': "",
+        'Runtime': "",
+        'Title': "",
+        'Type': "",
+        'Website': "",
+        'Writer': "",
+        'Year': "",
+        'imdbID': "",
+        'imdbRating': "",
+        'imdbVotes': "",
+        'isSaved': ""
       },
       taskList: [],
     }
@@ -62,12 +91,31 @@ class App extends React.Component {
       .then(res => this.refreshList())
   };
 
+  handleSaved = item => {
+    // this.toggle()
+    console.log("he")
+    const movieData = this.state.activeMovie
+    const responseMovieData = this.state.taskList
+    movieData.Actors= this.state.taskList.Actors
+
+    responseMovieData.Ratings = ""
+    responseMovieData.isSaved = true
+    console.log(responseMovieData)
+
+    // this.setState( {activeMovie[Actors]: this.state.taskList})
+    
+    axios
+      .post("http://localhost:8000/api/savedmovies/", responseMovieData)
+      .then(res => this.refreshList())
+  }
+
   handleDelete = item => {
     axios
         .delete(`http://localhost:8000/api/tasks/${item.id}/`)
         .then(res => this.refreshList())
   }
 
+  /// Searching functionality
   setSearch = text => {
     console.log(`texttt: ${text}`)
     axios
@@ -145,7 +193,7 @@ class App extends React.Component {
       ? <>
             <div className='movie'>
                 <img src={movieData.Poster} alt={movieData.Title} className='poster'></img>
-                <p className='rating text-white'><FaRegBookmark /></p>
+                <button className='rating text-white' activemovie = {this.state.activeMovie} onClick={this.handleSaved}><FaRegBookmark /></button>
                 <div className='movie-details'>
                     <div className='box'>
                       <div>
@@ -166,38 +214,38 @@ class App extends React.Component {
   }
 
   // Rendering Items in List
-  renderItems = () => {
-    // const{ viewCompleted } = this.state;
-    // const newItems = this.state.taskList.filter(
-    //   item => item.completed === viewCompleted
-    // );
+  // renderItems = () => {
+  //   // const{ viewCompleted } = this.state;
+  //   // const newItems = this.state.taskList.filter(
+  //   //   item => item.completed === viewCompleted
+  //   // );
 
-    return (
-      <>
-        <ul>
-          <li>{this.state.taskList.Title}</li>
-        </ul>
-      </>
-    );
+  //   return (
+  //     <>
+  //       <ul>
+  //         <li>{this.state.taskList.Title}</li>
+  //       </ul>
+  //     </>
+  //   );
 
-    // return this.state.taskList.map(item => (
-    // // return newItems.map(item => (
-    // // return this.state.movieList.map(item => (
-    //   <li key={item.id}
-    //     className='list-group-item d-flex justify-content-between align-items-center'>
-    //     <span className={`movie-title mr-2 ${this.state.viewCompleted ? "completed-todo" : ""}`}
-    //     title={item.title}>
-    //       {item.title}
-    //     </span>
+  //   // return this.state.taskList.map(item => (
+  //   // // return newItems.map(item => (
+  //   // // return this.state.movieList.map(item => (
+  //   //   <li key={item.id}
+  //   //     className='list-group-item d-flex justify-content-between align-items-center'>
+  //   //     <span className={`movie-title mr-2 ${this.state.viewCompleted ? "completed-todo" : ""}`}
+  //   //     title={item.title}>
+  //   //       {item.title}
+  //   //     </span>
 
-    //     <span>
-    //       <button onClick={() => this.editItem(item)} className='btn btn-info mr-2' style={{marginRight: "5px"}}>Edit</button>
-    //       <button onClick={() => this.handleDelete(item)} className='btn btn-danger mr-2'>Delete</button>
-    //     </span>
-    //   </li>
-    // ))
+  //   //     <span>
+  //   //       <button onClick={() => this.editItem(item)} className='btn btn-info mr-2' style={{marginRight: "5px"}}>Edit</button>
+  //   //       <button onClick={() => this.handleDelete(item)} className='btn btn-danger mr-2'>Delete</button>
+  //   //     </span>
+  //   //   </li>
+  //   // ))
 
-  };
+  // };
 
   
 
@@ -210,6 +258,7 @@ class App extends React.Component {
           <h1 className='text-white text-uppercase text-center my-4' style={{display: "inline"}}>Movie App</h1>
           
           <div className='searchContainer' style={{justifyContent: "space-between"}}>
+            <Link className="nav-link active text-white my-4 savedmovietext" to='/savedmovies'>Saved Movies</Link>
             <form>
               <div className="search-btn  my-4">
                   <input type="text" placeholder="&#128269; Enter Movie Name" 
@@ -248,7 +297,7 @@ class App extends React.Component {
         {/* {this.state.modal ? (
           <Modal activeItem = {this.state.activeItem} toggle = {this.toggle} onSave={this.handleSubmit}/>
         )
-        : null} */}
+        : null}  */}
         <ToastContainer/>
       </main>  
     )

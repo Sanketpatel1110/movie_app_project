@@ -23,6 +23,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 router = routers.DefaultRouter()
 router.register(r'tasks', views.MovieAppView, 'task')
 router.register(r'users', views.UserViewSet, 'user')
+router.register(r'savedmovies', views.UserSavedMoviesView)
 
 
 urlpatterns = [

@@ -10,7 +10,7 @@ class MovieSerializers(serializers.ModelSerializer):
 
 class UserSavedMovieSerializer(serializers.ModelSerializer):
     class Meta:
-        model: UserSavedMovies
+        model = UserSavedMovies
         fields = ('id', 'Actors', 'Awards', 'BoxOffice', 'Country', 'DVD',
                   'Director', 'Genre', 'Language', 'Metascore', 'Plot', 'Poster', 'Production', 'Rated', 'Ratings', 'Released',
                   'Response', 'Runtime', 'Title', 'Type', 'Website', 'Writer', 'Year', 'imdbID', 'imdbRating', 'imdbVotes',
