@@ -1,4 +1,3 @@
-import toastNotification from "./toast";
 
 export default class APISerive {
   static UpdateArticle(article_id, body, token) {
@@ -40,10 +39,7 @@ export default class APISerive {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    }).then((resp) => {
-        resp.json()
-        toastNotification("Login successful")
-    });
+    }).then((resp) => resp.json());
   }
 
   static RegisterUser(body) {
@@ -53,9 +49,6 @@ export default class APISerive {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    }).then((resp) => {
-        resp.json()
-        toastNotification("User registraion successful")
-    });
+    }).then((resp) => resp.json());
   }
 }

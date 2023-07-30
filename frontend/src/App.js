@@ -131,8 +131,8 @@ class App extends React.Component {
     const { cookies } = this.props;
 
     cookies.remove('mytoken');
-    toastNotification("Logout successful")
     window.location.href = '/';
+    toastNotification("Logout successful")
     // return false;
   }
 
