@@ -3,7 +3,7 @@ import './App.css';
 import axios from 'axios';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
-import { FaRegBookmark, FaSearch } from "react-icons/fa";
+import { FaRegBookmark } from "react-icons/fa";
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import toastNotification from './components/toast';
@@ -73,7 +73,18 @@ class App extends React.Component {
     axios
       .get(`${BASE_URL}/?t=${text}&plot=full&${API_KEY}`)
       .then(res => {
-        this.setState({ taskList: res.data })
+        console.log(res.data.Title);
+        console.log(res.data);
+        if(res.data.Title !== undefined) {
+          this.setState({ taskList: res.data })
+        }
+        else if(res.data.Title === undefined && text.length > 0) {
+          this.setState({ taskList: [] })
+        }
+        else if(res.data.Title === undefined) {
+          // this.setState({ taskList: [] })
+          this.refreshList()
+        }
       })
       .catch(err => console.log(err))
 
@@ -130,7 +141,8 @@ class App extends React.Component {
     const movieData = this.state.taskList;
     return(
       // <Card info={this.state.taskList}/>
-      <>
+      movieData.length !== 0 
+      ? <>
             <div className='movie'>
                 <img src={movieData.Poster} alt={movieData.Title} className='poster'></img>
                 <p className='rating text-white'><FaRegBookmark /></p>
@@ -147,6 +159,9 @@ class App extends React.Component {
                 </div>
             </div>
         </>
+      : <>
+        <h1 className='text-white'>No Such Movies</h1>
+      </>
     )
   }
 
@@ -191,21 +206,17 @@ class App extends React.Component {
   render() {
     return (
       <main className='content p-4 mb-2 bg-dark' style={{minHeight: window.innerHeight}}>
-        {/* <NavBar/> */}
         <div className='topContainer'>
           <h1 className='text-white text-uppercase text-center my-4' style={{display: "inline"}}>Movie App</h1>
           
-          <div className='topContainer' style={{justifyContent: "space-between"}}>
+          <div className='searchContainer' style={{justifyContent: "space-between"}}>
             <form>
               <div className="search-btn  my-4">
-                  <input type="text" placeholder="Enter Movie Name" 
+                  <input type="text" placeholder="&#128269; Enter Movie Name" 
                   className="inputText searchInput" 
                   onChange={(e)=>{this.setSearch(e.target.value)}} 
-                  // value={search}
-                  // onChange={searchMovie}
                   >
                   </input>
-                  <button className=''><FaSearch/></button>
               </div>
             </form>
 

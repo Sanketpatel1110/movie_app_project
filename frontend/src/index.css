@@ -19,6 +19,20 @@ body {
   justify-content: space-between;
 }
 
+.searchContainer{
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.searchContainer .search-btn {
+  padding-right: 10px;
+}
+
+.searchContainer .active {
+  padding-bottom: 20px;
+}
+
 .completed-todo {
   text-decoration: line-through;
 }
