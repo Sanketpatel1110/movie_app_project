@@ -27,6 +27,7 @@ body {
 
 .searchContainer .search-btn {
   padding-right: 10px;
+  height: 35px;
 }
 
 .searchContainer .active {
