@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import APIService from './APIService'
 import toastNotification from "./toast";
+import { ToastContainer } from "react-toastify";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -29,11 +30,13 @@ function Login() {
     if (username.trim().length !== 0 && password.trim().length) {
       console.log("username and pass are set");
       APIService.LoginUser({ username, password })
-        .then((resp) => setToken("mytoken", resp.token))
-        .catch((error) => console.log(error));
-      toastNotification("Login Successful", "login")
+        .then((resp) => {
+          setToken("mytoken", resp.token)
+          toastNotification("Login Successful", "login")
+        })
+        .catch((error) => toastNotification(error, "loginerr", true));
     } else {
-      console.log("Username and Password are not set");
+      toastNotification("Username and password are not set", "loginvalidation", true)
       navigate("/");
     }
   };
@@ -47,7 +50,7 @@ function Login() {
       toastNotification("User Successful Register", "register")
     } else {
       navigate("/");
-      console.log("Username and password are not set");
+      toastNotification("Username and password are not set", "registervalidation", true)
     }
   };
 
@@ -136,6 +139,7 @@ function Login() {
                 </div>
             </div>
         </div>
+        <ToastContainer/>
     </div>
   );
 }
