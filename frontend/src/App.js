@@ -242,7 +242,7 @@ class App extends React.Component {
             </div>
         </>
       : <>
-        <h1 className='text-white'>No Such Movies</h1>
+        <h3 className='text-center text-white'>No Such Movie Found</h3>
       </>
     )
   }
@@ -287,7 +287,8 @@ class App extends React.Component {
 
   render() {
     return (
-      <main className='content p-4 mb-2 bg-dark' style={{minHeight: window.innerHeight}}>
+      <main>
+      <div className='content p-4 mb-2 bg-dark' style={{minHeight: window.innerHeight}}>
         {this.state.isLoading 
         ? <LoadingSpinner />
         
@@ -332,10 +333,11 @@ class App extends React.Component {
               </div> */}
             </div>
           </div>
-          <footer className='my-5 mb-2 text-white text-center'>Copyright 2023 &copy; All Rights reserved</footer>
         </>
         }
         <ToastContainer/>
+        </div>
+        <footer className='mb-0 text-white text-center footer'>Copyright 2023 &copy; All Rights reserved</footer>
       </main>  
     )
   }

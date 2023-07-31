@@ -78,64 +78,10 @@ function SavedMovies() {
                 </div>
               </div>
             </>
-        // { item.isSaved == false ? (
-        //     <>
-        //       <div className="movie">
-        //         <img
-        //           src={item.Poster}
-        //           alt={item.Title}
-        //           className="poster"
-        //         ></img>
-        //         <button
-        //           className="rating text-white"
-        //           activemovie={movieData}
-        //           onClick={handleSaved}
-        //         >
-        //           <FaRegBookmark />
-        //         </button>
-        //         <div className="movie-details">
-        //           <div className="box">
-        //             <div>
-        //               <h4 className="title text-white">{item.Title}</h4>
-        //               <p>Year of release: {item.Year}</p>
-        //             </div>
-        //           </div>
-        //           <div className="overview">{item.Plot}</div>
-        //         </div>
-        //       </div>
-        //     </>
-        //   ) : (
-        //     <>
-        //       <div className="movie">
-        //         <img
-        //           src={item.Poster}
-        //           alt={item.Title}
-        //           className="poster"
-        //         ></img>
-        //         <button
-        //           className="rating text-white"
-        //           activemovie={movieData}
-        //           onClick={handleSaved}
-        //         >
-        //           <FaBookmark />
-        //         </button>
-        //         <div className="movie-details">
-        //           <div className="box">
-        //             <div>
-        //               <h4 className="title text-white">{item.Title}</h4>
-        //               <p>Year of release: {item.Year}</p>
-        //             </div>
-        //           </div>
-        //           <div className="overview">{item.Plot}</div>
-        //         </div>
-        //       </div>
-        //     </>
-        //   );
-        // }
         )
       ) : (
         <>
-          <h1 className="text-white">No Such Movies</h1>
+          <h3 className="text-white text-center">Saved Movie is Empty</h3>
         </>
       )
     );
@@ -151,7 +97,8 @@ function SavedMovies() {
   };
 
   return (
-    <main
+    <main>
+    <div
       className="content p-4 mb-2 bg-dark"
       style={{ minHeight: window.innerHeight }}
     >
@@ -167,16 +114,6 @@ function SavedMovies() {
           className="searchContainer"
           style={{ justifyContent: "space-between" }}
         >
-          {/* <Link className="nav-link active text-white my-4 savedmovietext" to='/savedmovies'>Saved Movies</Link> */}
-          {/* <form>
-              <div className="search-btn  my-4">
-                  <input type="text" placeholder="&#128269; Enter Movie Name" 
-                  className="inputText searchInput" 
-                  onChange={(e)=>{this.setSearch(e.target.value)}} 
-                  >
-                  </input>
-              </div>
-            </form> */}
 
           <button className="nav-link active text-black logout-btn my-4" onClick={logout}>
             Log out
@@ -187,22 +124,12 @@ function SavedMovies() {
       <div className="row">
         <div className="col-md-10 col-sma-10 mx-auto p-0">
           <div className="wrap">{renderCards()}</div>
-
-          {/* <div className='card p-3'>
-              <div>
-                <button onClick={this.createItem} className='btn btn-warning'>Add Task</button>
-              </div>
-              {this.renderTabList()}
-              <ul className='list-group list-group-flush'>
-                {this.renderItems()}
-              </ul>
-            </div> */}
         </div>
       </div>
-      <footer className="my-5 mb-2 text-white text-center">
-        Copyright 2023 &copy; All Rights reserved
-      </footer>
+      
       <ToastContainer/>
+      </div>
+        <footer className='mb-0 text-white text-center footer'>Copyright 2023 &copy; All Rights reserved</footer>
     </main>
   );
 }
