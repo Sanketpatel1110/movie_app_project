@@ -15,6 +15,7 @@ body {
 
 .topContainer{
   display: flex;
+  width: 100%;
   flex-direction: row;
   justify-content: space-between;
 }
@@ -27,16 +28,33 @@ body {
 
 .searchContainer .search-btn {
   padding-right: 10px;
+  padding-left: 10px;
+}
+
+.searchContainer .search-btn input {
   height: 35px;
 }
 
 .searchContainer .active {
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
+  display: inline-flex;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  /* text-align: center; */
+  border: 1px solid black;
+  font-weight: bold;
+}
+
+.logout-btn{
+  height: 40px;
+  align-items: center;
+  border-radius: 15px;
 }
 
 .savedmovietext {
-  padding-bottom: 20px;
-  padding-right: 15px;
+  height: 40px;
+  border-radius: 15px;
 }
 
 .completed-todo {

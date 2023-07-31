@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import toastNotification from './components/toast';
+import LoadingSpinner from './components/backdrop';
 
 let API_KEY = "apikey=484ddb5";
 let BASE_URL = "https://www.omdbapi.com/"
@@ -20,6 +21,7 @@ class App extends React.Component {
     this.state = {
       modal: false,
       viewCompleted:false,
+      isLoading: false,
       activeItem: {
         title: "",
         description: "",
@@ -54,6 +56,7 @@ class App extends React.Component {
         'isSaved': ""
       },
       taskList: [],
+      savedMovieList: [],
     }
   }
 
@@ -64,14 +67,25 @@ class App extends React.Component {
 
   componentDidMount() {
     this.refreshList();
+    this.savedMovieListApi();
   }
 
 
   refreshList = () => {
+    this.state.isLoading = true
     axios
       .get(main_url)
       .then(res => this.setState({ taskList: res.data }))
       .catch(err => console.log(err))
+    this.state.isLoading = false
+  }
+
+  savedMovieListApi = () => {
+    axios
+      .get("http://localhost:8000/api/savedmovies/")
+      // .then(res => console.log(res.data))
+      .then(res => this.setState({ savedMovieList: res.data }))
+      .catch(err=> console.log(err) )
   }
 
 
@@ -94,9 +108,8 @@ class App extends React.Component {
   handleSaved = item => {
     // this.toggle()
     console.log("he")
-    const movieData = this.state.activeMovie
     const responseMovieData = this.state.taskList
-    movieData.Actors= this.state.taskList.Actors
+    console.log(`dfs : ${this.state.savedMovieList.length}`)
 
     responseMovieData.Ratings = ""
     responseMovieData.isSaved = true
@@ -104,16 +117,24 @@ class App extends React.Component {
 
     // this.setState( {activeMovie[Actors]: this.state.taskList})
     
-    axios
-      .post("http://localhost:8000/api/savedmovies/", responseMovieData)
-      .then(res => this.refreshList())
+    if(this.state.savedMovieList.length < 5) {
+      axios
+        .post("http://localhost:8000/api/savedmovies/", responseMovieData)
+        .then(res => {
+          toastNotification("Movie added to savedmovies", "savemovie")
+          this.refreshList()
+        })  
+    }
+    else {
+      toastNotification("Your Saved List is Full. (Max:5)", "fulllist", true)
+    }
   }
 
-  handleDelete = item => {
-    axios
-        .delete(`http://localhost:8000/api/tasks/${item.id}/`)
-        .then(res => this.refreshList())
-  }
+  // handleDelete = item => {
+  //   axios
+  //       .delete(`http://localhost:8000/api/tasks/${item.id}/`)
+  //       .then(res => this.refreshList())
+  // }
 
   /// Searching functionality
   setSearch = text => {
@@ -138,21 +159,21 @@ class App extends React.Component {
 
   }
 
-  createItem = () => {
-    const item = {title: "", modal: !this.state.modal };
-    this.setState({ activeItem: item, modal: !this.state.modal})
-  }
+  // createItem = () => {
+  //   const item = {title: "", modal: !this.state.modal };
+  //   this.setState({ activeItem: item, modal: !this.state.modal})
+  // }
 
-  editItem = item => {
-    this.setState({ activeItem: item, modal: !this.state.modal })
-  }
+  // editItem = item => {
+  //   this.setState({ activeItem: item, modal: !this.state.modal })
+  // }
 
-  displayCompleted = status => {
-    if(status) {
-      return this.setState({viewCompleted: true})
-    }
-    return this.setState({viewCompleted: false})
-  }
+  // displayCompleted = status => {
+  //   if(status) {
+  //     return this.setState({viewCompleted: true})
+  //   }
+  //   return this.setState({viewCompleted: false})
+  // }
   
   // renderTabList = () => {
   //   return (
@@ -254,50 +275,53 @@ class App extends React.Component {
   render() {
     return (
       <main className='content p-4 mb-2 bg-dark' style={{minHeight: window.innerHeight}}>
-        <div className='topContainer'>
-          <h1 className='text-white text-uppercase text-center my-4' style={{display: "inline"}}>Movie App</h1>
-          
-          <div className='searchContainer' style={{justifyContent: "space-between"}}>
-            <Link className="nav-link active text-white my-4 savedmovietext" to='/savedmovies'>Saved Movies</Link>
-            <form>
-              <div className="search-btn  my-4">
-                  <input type="text" placeholder="&#128269; Enter Movie Name" 
-                  className="inputText searchInput" 
-                  onChange={(e)=>{this.setSearch(e.target.value)}} 
-                  >
-                  </input>
-              </div>
-            </form>
-
-            <button className="nav-link active text-white" onClick={this.logout}>Log out</button>
-
-          </div>
-        </div>
+        {this.state.isLoading 
+        ? <LoadingSpinner />
         
-        <div className='row'>
-          <div className='col-md-10 col-sma-10 mx-auto p-0'>
-            <div className='wrap'>
+        : 
+        <>
+          <div className='topContainer'>
+            <h1 className='text-white text-uppercase text-center my-4' style={{display: "inline"}}>Movie App</h1>
             
-            { this.renderCards()}
-            </div>
-            
+            <div className='searchContainer'>
+              <Link className="nav-link active text-black my-4 savedmovietext" to='/savedmovies'>Saved Movies</Link>
+              <form>
+                <div className="search-btn  my-4">
+                    <input type="text" placeholder="&#128269; Enter Movie Name" 
+                    className="inputText searchInput" 
+                    onChange={(e)=>{this.setSearch(e.target.value)}} 
+                    >
+                    </input>
+                </div>
+              </form>
 
-            {/* <div className='card p-3'>
-              <div>
-                <button onClick={this.createItem} className='btn btn-warning'>Add Task</button>
-              </div>
-              {this.renderTabList()}
-              <ul className='list-group list-group-flush'>
-                {this.renderItems()}
-              </ul>
-            </div> */}
+              <button className="nav-link active text-black logout-btn my-4" onClick={this.logout}>Log out</button>
+
+            </div>
           </div>
-        </div>
-        <footer className='my-5 mb-2 text-white text-center'>Copyright 2023 &copy; All Rights reserved</footer>
-        {/* {this.state.modal ? (
-          <Modal activeItem = {this.state.activeItem} toggle = {this.toggle} onSave={this.handleSubmit}/>
-        )
-        : null}  */}
+          
+          <div className='row'>
+            <div className='col-md-10 col-sma-10 mx-auto p-0'>
+              <div className='wrap'>
+              
+              { this.renderCards()}
+              </div>
+              
+
+              {/* <div className='card p-3'>
+                <div>
+                  <button onClick={this.createItem} className='btn btn-warning'>Add Task</button>
+                </div>
+                {this.renderTabList()}
+                <ul className='list-group list-group-flush'>
+                  {this.renderItems()}
+                </ul>
+              </div> */}
+            </div>
+          </div>
+          <footer className='my-5 mb-2 text-white text-center'>Copyright 2023 &copy; All Rights reserved</footer>
+        </>
+        }
         <ToastContainer/>
       </main>  
     )

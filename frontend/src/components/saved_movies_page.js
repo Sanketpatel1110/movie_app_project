@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import toastNotification from "./toast";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
+import { ToastContainer } from 'react-toastify'
 import axios from "axios";
+import { Cookies } from "react-cookie";
 
 function SavedMovies() {
   const [taskList, setTaskList] = useState([]);
@@ -10,7 +12,6 @@ function SavedMovies() {
     axios
       .get("http://localhost:8000/api/savedmovies/")
       .then((res) => setTaskList(res.data))
-      // .then(res => this.setState({ taskList: res.data }))
       .catch((err) => console.log(err));
   };
 
@@ -38,7 +39,10 @@ function SavedMovies() {
   const handleDelete = item => {
     axios
         .delete(`http://localhost:8000/api/savedmovies/${item.id}/`)
-        .then(res => refreshList())
+        .then(res => {
+          toastNotification("Movie removed from savedmovies", "removemovie")
+          refreshList()
+        })
   }
 
   const renderCards = () => {
@@ -138,8 +142,8 @@ function SavedMovies() {
   };
 
   const logout = (e) => {
-    const { cookies } = this.props;
-
+    const cookies = new Cookies()
+    
     cookies.remove("mytoken");
     window.location.href = "/";
     toastNotification("Logout successful");
@@ -174,7 +178,7 @@ function SavedMovies() {
               </div>
             </form> */}
 
-          <button className="nav-link active text-white" onClick={logout}>
+          <button className="nav-link active text-black logout-btn my-4" onClick={logout}>
             Log out
           </button>
         </div>
@@ -198,6 +202,7 @@ function SavedMovies() {
       <footer className="my-5 mb-2 text-white text-center">
         Copyright 2023 &copy; All Rights reserved
       </footer>
+      <ToastContainer/>
     </main>
   );
 }
