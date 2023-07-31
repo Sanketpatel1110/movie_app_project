@@ -3,7 +3,7 @@ import './App.css';
 import axios from 'axios';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
-import { FaRegBookmark } from "react-icons/fa";
+import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -208,13 +208,26 @@ class App extends React.Component {
   
   renderCards = () => {
     const movieData = this.state.taskList;
+    var alreadySaved = false
+
+    const databaseMoviesList = this.state.savedMovieList
+
+    if(databaseMoviesList.length !== 0) {
+      for(var i=0; i < databaseMoviesList.length; i++) {
+        if(databaseMoviesList[i].Title === movieData.Title) {
+          alreadySaved = true
+          break
+        }
+      }
+    }
+
     return(
       // <Card info={this.state.taskList}/>
       movieData.length !== 0 
       ? <>
             <div className='movie'>
                 <img src={movieData.Poster} alt={movieData.Title} className='poster'></img>
-                <button className='rating text-white' activemovie = {this.state.activeMovie} onClick={this.handleSaved}><FaRegBookmark /></button>
+                <button className='rating text-white' activemovie = {this.state.activeMovie} onClick={() => alreadySaved ? toastNotification("Movie is already saved", "saveprior", true) : this.handleSaved()}>{alreadySaved ? <FaBookmark /> : <FaRegBookmark />}</button>
                 <div className='movie-details'>
                     <div className='box'>
                       <div>
