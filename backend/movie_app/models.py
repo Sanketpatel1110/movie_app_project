@@ -18,7 +18,7 @@ class UserSavedMovies(models.Model):
     Genre = models.CharField(max_length=200, blank=True)
     Language = models.CharField(max_length=200, blank=True)
     Metascore = models.CharField(max_length=20, blank=True)
-    Plot = models.CharField(max_length=700)
+    Plot = models.CharField(max_length=2000)
     Poster = models.CharField(max_length=200)
     Production = models.CharField(max_length=100, blank=True)
     Rated = models.CharField(max_length=10, blank=True)

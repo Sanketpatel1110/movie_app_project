@@ -30,7 +30,6 @@ function SavedMovies() {
 
     responseMovieData.Ratings = "";
     responseMovieData.isSaved = true;
-    console.log(responseMovieData);
 
     // this.setState( {activeMovie[Actors]: this.state.taskList})
 

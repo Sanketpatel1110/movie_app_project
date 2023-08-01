@@ -14,8 +14,6 @@ function Login() {
 
   useEffect(() => {
     var user_token = token["mytoken"];
-    console.log("Login User token is", user_token);
-    console.log("datatype ", typeof token["mytoken"]);
 
     if (String(user_token) === "undefined") {
       navigate("/");
@@ -26,7 +24,6 @@ function Login() {
 
   const loginBtn = () => {
     if (username.trim().length !== 0 && password.trim().length) {
-      console.log("username and pass are set");
       APIService.LoginUser({ username, password })
         .then((resp) => {
           setToken("mytoken", resp.token);
@@ -45,7 +42,6 @@ function Login() {
 
   const RegisterBtn = () => {
     if (username.trim().length !== 0 && password.trim().length !== 0) {
-      console.log("Username and password are set");
       APIService.RegisterUser({ username, password })
         .then(() => loginBtn())
         .catch((error) => console(error));

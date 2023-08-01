@@ -1,6 +1,5 @@
 
 const Card = (movie) => {
-    console.log(`data.Title ${movie.Title}`)
     return (
         <>
             <div className='movie'>

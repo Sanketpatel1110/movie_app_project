@@ -83,7 +83,6 @@ class App extends React.Component {
   savedMovieListApi = () => {
     axios
       .get("http://localhost:8000/api/savedmovies/")
-      // .then(res => console.log(res.data))
       .then(res => this.setState({ savedMovieList: res.data }))
       .catch(err=> console.log(err) )
   }
@@ -107,17 +106,14 @@ class App extends React.Component {
 
   handleSaved = item => {
     // this.toggle()
-    console.log("he")
     const responseMovieData = this.state.taskList
     console.log(`dfs : ${this.state.savedMovieList.length}`)
 
     responseMovieData.Ratings = ""
     responseMovieData.isSaved = true
-    console.log(responseMovieData)
 
     // this.setState( {activeMovie[Actors]: this.state.taskList})
     
-    console.log(this.state.savedMovieList.length);
     if((this.state.savedMovieList.length + 1) <= 5) {
       axios
         .post("http://localhost:8000/api/savedmovies/", responseMovieData)
@@ -139,12 +135,9 @@ class App extends React.Component {
 
   /// Searching functionality
   setSearch = text => {
-    console.log(`texttt: ${text}`)
     axios
       .get(`${BASE_URL}/?t=${text}&plot=full&${API_KEY}`)
       .then(res => {
-        console.log(res.data.Title);
-        console.log(res.data);
         if(res.data.Title !== undefined) {
           this.setState({ taskList: res.data })
         }
