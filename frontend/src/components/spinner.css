@@ -14,3 +14,14 @@
     border-radius: 50%;
     animation: spinner 1.5s linear infinite;
   }
+
+  .body {
+    height: 100%;
+  }
+
+  .spinner-container {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    justify-content: center;
+  }

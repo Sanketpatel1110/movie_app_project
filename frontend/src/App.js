@@ -21,7 +21,8 @@ class App extends React.Component {
     this.state = {
       modal: false,
       viewCompleted:false,
-      isLoading: false,
+      // isLoading: false,
+      isLoading: true,
       activeItem: {
         title: "",
         description: "",
@@ -72,12 +73,11 @@ class App extends React.Component {
 
 
   refreshList = () => {
-    this.state.isLoading = true
     axios
       .get(main_url)
       .then(res => this.setState({ taskList: res.data }))
       .catch(err => console.log(err))
-    this.state.isLoading = false
+    setTimeout(() => this.setState({isLoading: false}), 1000)
   }
 
   savedMovieListApi = () => {
@@ -117,7 +117,8 @@ class App extends React.Component {
 
     // this.setState( {activeMovie[Actors]: this.state.taskList})
     
-    if(this.state.savedMovieList.length < 5) {
+    console.log(this.state.savedMovieList.length);
+    if(this.state.savedMovieList.length < 4) {
       axios
         .post("http://localhost:8000/api/savedmovies/", responseMovieData)
         .then(res => {
@@ -242,7 +243,7 @@ class App extends React.Component {
             </div>
         </>
       : <>
-        <h3 className='text-center text-white'>No Such Movie Found</h3>
+        <h3 className='text-center text-white'>There isn't any movie</h3>
       </>
     )
   }
@@ -291,7 +292,6 @@ class App extends React.Component {
       <div className='content p-4 mb-2 bg-dark' style={{minHeight: window.innerHeight}}>
         {this.state.isLoading 
         ? <LoadingSpinner />
-        
         : 
         <>
           <div className='topContainer'>
@@ -333,11 +333,11 @@ class App extends React.Component {
               </div> */}
             </div>
           </div>
+          <footer className='mb-0 text-white text-center footer'>Copyright 2023 &copy; All Rights reserved</footer>
         </>
         }
         <ToastContainer/>
         </div>
-        <footer className='mb-0 text-white text-center footer'>Copyright 2023 &copy; All Rights reserved</footer>
       </main>  
     )
   }

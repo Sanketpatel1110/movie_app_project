@@ -3,7 +3,7 @@ import "./spinner.css";
 
 export default function LoadingSpinner() {
   return (
-    <div className="spinner-container" style={{alignItems: "center"}}>
+    <div className="spinner-container">
         <div className="loading-spinner">
         </div>
     </div>
