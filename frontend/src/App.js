@@ -118,7 +118,7 @@ class App extends React.Component {
     // this.setState( {activeMovie[Actors]: this.state.taskList})
     
     console.log(this.state.savedMovieList.length);
-    if(this.state.savedMovieList.length < 4) {
+    if((this.state.savedMovieList.length + 1) <= 5) {
       axios
         .post("http://localhost:8000/api/savedmovies/", responseMovieData)
         .then(res => {

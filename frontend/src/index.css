@@ -172,3 +172,13 @@ body {
   width: 100%;
   height: 50px;
 }
+
+.loginbtn {
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 15px;
+  border: 1px solid white;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(7, 65, 255);
+}
