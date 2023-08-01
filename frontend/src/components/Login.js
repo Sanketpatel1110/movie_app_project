@@ -73,16 +73,19 @@ function Login() {
     <div className="bg-dark" style={{ minHeight: window.innerHeight }}>
       <div className="container">
         <div className="container-fluid">
-          <div className="row">
+          <div>
             <h1 className="text-white text-uppercase text-center my-4">
               Movie app
             </h1>
 
-            <div className="col-md-5 col-sma-10 mx-auto p-0 text-white" style={{marginTop: 50}}>
+            <div
+              className="col-md-5 col-sma-4 mx-auto p-0 text-white"
+              style={{ marginTop: 50 }}
+            >
               {isLogin ? (
-                <h3 className="text-center">Please Login Here</h3>
+                <h3 className="text-center">Login</h3>
               ) : (
-                <h3 className="text-center">Please Register Here</h3>
+                <h3 className="text-center">Create Account</h3>
               )}
               <div className="form-group">
                 <label htmlFor="username">Username</label>
@@ -109,28 +112,32 @@ function Login() {
               <br />
 
               <div>
-                {isLogin ? (
-                  <div className="align-center">
+                {isLogin 
+                ? (
+                  <div className="loginbtndiv">
                     <button onClick={loginBtn} className="loginbtn">
                       Login
                     </button>
-                    <p>If You Don't Have Account, Please</p>
-                    <button
-                      onClick={() => setLogin(false)}
-                      className="btn btn-primary"
-                    >
-                      Register
-                    </button>
+                    <p>
+                      If You Don't Have Account, 
+                      <button
+                        onClick={() => setLogin(false)}
+                        className="linkbtn"
+                      >
+                        Register Here
+                      </button>
+                    </p>
                   </div>
-                ) : (
-                  <div>
+                ) 
+                : (
+                  <div className="loginbtndiv">
                     <button onClick={RegisterBtn} className="loginbtn">
                       Register
                     </button>
                     <p>
                       If You Have Account, Please{" "}
                       <button
-                        className="btn btn-primary"
+                        className="linkbtn"
                         onClick={() => setLogin(true)}
                       >
                         Login

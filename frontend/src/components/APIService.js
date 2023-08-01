@@ -1,3 +1,4 @@
+import toastNotification from "./toast";
 
 export default class APISerive {
 
@@ -8,7 +9,10 @@ export default class APISerive {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    }).then((resp) => resp.json());
+    }).then((resp) => 
+      resp.status === 200 ? resp.json() : toastNotification("Something went wrong", "loginerr", true)
+      
+    );
   }
 
   static RegisterUser(body) {
@@ -18,6 +22,8 @@ export default class APISerive {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    }).then((resp) => resp.json());
+    }).then((resp) => 
+      resp.status === 200 ? resp.json() : toastNotification("Something went wrong", "loginerr", true)
+    );
   }
 }
