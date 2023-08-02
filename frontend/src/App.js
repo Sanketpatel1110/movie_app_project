@@ -21,7 +21,6 @@ class App extends React.Component {
     this.state = {
       modal: false,
       viewCompleted:false,
-      // isLoading: false,
       isLoading: true,
       activeItem: {
         title: "",
@@ -88,50 +87,41 @@ class App extends React.Component {
   }
 
 
-  toggle = () => {
-    this.setState({modal: !this.state.modal});
-  };
+  // toggle = () => {
+  //   this.setState({modal: !this.state.modal});
+  // };
 
-  handleSubmit = item => {
-    this.toggle()
-    if(item.id) {
-      axios
-        .put(`http://localhost:8000/api/tasks/${item.id}/`, item)
-        .then(res => this.refreshList())
-    }
-    axios
-      .post("http://localhost:8000/api/tasks/", item)
-      .then(res => this.refreshList())
-  };
+  // handleSubmit = item => {
+  //   this.toggle()
+  //   if(item.id) {
+  //     axios
+  //       .put(`http://localhost:8000/api/tasks/${item.id}/`, item)
+  //       .then(res => this.refreshList())
+  //   }
+  //   axios
+  //     .post("http://localhost:8000/api/tasks/", item)
+  //     .then(res => this.refreshList())
+  // };
 
   handleSaved = item => {
-    // this.toggle()
     const responseMovieData = this.state.taskList
-    console.log(`dfs : ${this.state.savedMovieList.length}`)
 
     responseMovieData.Ratings = ""
     responseMovieData.isSaved = true
 
-    // this.setState( {activeMovie[Actors]: this.state.taskList})
-    
-    if((this.state.savedMovieList.length + 1) <= 5) {
+    if((this.state.savedMovieList.length) <= 4) {
       axios
         .post("http://localhost:8000/api/savedmovies/", responseMovieData)
         .then(res => {
-          toastNotification("Movie added to savedmovies", "savemovie")
           this.refreshList()
-        })  
+          this.savedMovieListApi();
+        })
+        .then(toastNotification("Movie added to savedmovies", "savemovie"))
     }
     else {
       toastNotification("Your Saved List is Full. (Max:5)", "fulllist", true)
     }
   }
-
-  // handleDelete = item => {
-  //   axios
-  //       .delete(`http://localhost:8000/api/tasks/${item.id}/`)
-  //       .then(res => this.refreshList())
-  // }
 
   /// Searching functionality
   setSearch = text => {
@@ -145,7 +135,6 @@ class App extends React.Component {
           this.setState({ taskList: [] })
         }
         else if(res.data.Title === undefined) {
-          // this.setState({ taskList: [] })
           this.refreshList()
         }
       })
@@ -153,50 +142,12 @@ class App extends React.Component {
 
   }
 
-  // createItem = () => {
-  //   const item = {title: "", modal: !this.state.modal };
-  //   this.setState({ activeItem: item, modal: !this.state.modal})
-  // }
-
-  // editItem = item => {
-  //   this.setState({ activeItem: item, modal: !this.state.modal })
-  // }
-
-  // displayCompleted = status => {
-  //   if(status) {
-  //     return this.setState({viewCompleted: true})
-  //   }
-  //   return this.setState({viewCompleted: false})
-  // }
-  
-  // renderTabList = () => {
-  //   return (
-  //     <div className='my-5 tab-list'>
-  //       <span
-  //         onClick={() => this.displayCompleted(true)}
-  //         className={this.state.viewCompleted ? "active" : ""}
-  //       >
-  //         Completed
-  //       </span>
-
-  //       <span 
-  //         onClick={() => this.displayCompleted(false)}
-  //         className={this.state.viewCompleted ? "" : "active"}
-  //       >
-  //         Incompleted
-  //       </span>
-
-  //     </div>
-  //   )
-  // }
-
   logout = (e) => {
     const { cookies } = this.props;
 
     cookies.remove('mytoken');
     window.location.href = '/';
     toastNotification("Logout successful")
-    // return false;
   }
 
   
@@ -216,7 +167,6 @@ class App extends React.Component {
     }
 
     return(
-      // <Card info={this.state.taskList}/>
       movieData.length !== 0 
       ? <>
             <div className='movie'>
@@ -240,42 +190,6 @@ class App extends React.Component {
       </>
     )
   }
-
-  // Rendering Items in List
-  // renderItems = () => {
-  //   // const{ viewCompleted } = this.state;
-  //   // const newItems = this.state.taskList.filter(
-  //   //   item => item.completed === viewCompleted
-  //   // );
-
-  //   return (
-  //     <>
-  //       <ul>
-  //         <li>{this.state.taskList.Title}</li>
-  //       </ul>
-  //     </>
-  //   );
-
-  //   // return this.state.taskList.map(item => (
-  //   // // return newItems.map(item => (
-  //   // // return this.state.movieList.map(item => (
-  //   //   <li key={item.id}
-  //   //     className='list-group-item d-flex justify-content-between align-items-center'>
-  //   //     <span className={`movie-title mr-2 ${this.state.viewCompleted ? "completed-todo" : ""}`}
-  //   //     title={item.title}>
-  //   //       {item.title}
-  //   //     </span>
-
-  //   //     <span>
-  //   //       <button onClick={() => this.editItem(item)} className='btn btn-info mr-2' style={{marginRight: "5px"}}>Edit</button>
-  //   //       <button onClick={() => this.handleDelete(item)} className='btn btn-danger mr-2'>Delete</button>
-  //   //     </span>
-  //   //   </li>
-  //   // ))
-
-  // };
-
-  
 
 
 

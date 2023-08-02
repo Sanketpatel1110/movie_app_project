@@ -26,8 +26,8 @@ function Login() {
     if (username.trim().length !== 0 && password.trim().length) {
       APIService.LoginUser({ username, password })
         .then((resp) => {
-          setToken("mytoken", resp.token);
           toastNotification("Login Successful", "login");
+          setToken("mytoken", resp.token);
         })
         .catch((error) => toastNotification(error, "loginerr", true));
     } else {

@@ -50,7 +50,6 @@ function SavedMovies() {
   const renderCards = () => {
     const movieData = taskList;
     return (
-      // <Card info={this.state.taskList}/>
       movieData.length !== 0 ? (
         movieData.map((item) => (
           <>
@@ -67,7 +66,6 @@ function SavedMovies() {
                 onClick={() => {
                   item.isSaved ? handleDelete(item) : handleSaved();
                 }}
-                // onClick={item.isSaved ? handleDelete : handleSaved }
               >
                 {item.isSaved ? <FaBookmark /> : <FaRegBookmark />}
               </button>
@@ -101,7 +99,6 @@ function SavedMovies() {
     cookies.remove("mytoken");
     window.location.href = "/";
     toastNotification("Logout successful");
-    // return false;
   };
 
   return (
